@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Live Web Code Editor</title>
+  <meta name="description"
+    content="Interactive web code editor supporting HTML, CSS, and JavaScript with live preview and simple validation tests inside the browser." />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+
+  <header>
+    <div class="container row">
+
+      <div class="brand">
+
+        <div class="logo"></div>
+
+        <div class="title">Live Web Code Editor</div>
+
+      </div>
+
+      <div class="row">
+        <button class="btn secondary" id="saveBtn" title="Save work locally"><span>Save</span></button>
+        <button class="btn secondary" id="loadBtn" title="Load work file"><span>Load</span></button>
+        <input id="openFile" type="file" accept="application/json" hidden>
+      </div>
+
+
+    </div>
+  </header>
+
+  <main class="bento-grid">
+
+    <!-- Area 1: Task Description -->
+    <aside class="glass-panel task-area">
+      <div class="panel-header">
+        <h2>Task / Assignment</h2>
+      </div>
+      <div class="panel-content stack">
+        <textarea id="assignment" class="glass-input" placeholder="Write the task description here..."></textarea>
+
+        <button id="magicBtn" class="btn-magic">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="sparkle-icon">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+              fill="currentColor" opacity="0.8" />
+          </svg>
+          <span>Ask Gemini to Build</span>
+        </button>
+
+        <div class="stack">
+          <label for="testArea">Validation tests (JS optional)</label>
+          <textarea id="testArea" class="glass-input" placeholder="Write simple tests to append..."></textarea>
+        </div>
+
+        <div class="muted small-text">
+          Tip: <span class="kbd">Ctrl</span> + <span class="kbd">S</span> to save,
+          <span class="kbd">Ctrl</span> + <span class="kbd">Enter</span> to run.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Area 2: Editors -->
+    <section class="glass-panel editor-area" id="webEditors">
+      <div class="panel-header row">
+        <div class="tabs" id="webTabs" role="tablist">
+          <button class="tab active" role="tab" aria-selected="true" tabindex="0" data-pane="html">HTML</button>
+          <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-pane="css">CSS</button>
+          <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-pane="js">JS</button>
+        </div>
+        <div class="actions row">
+          <button class="btn-icon" id="runWeb" title="Run Code">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span>Run</span>
+          </button>
+          <button class="btn-ghost" id="openPreview" title="Open in new window">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="editor-container">
+        <div class="editor-wrap" data-pane="html">
+          <div id="ed_html" class="editor"></div>
+        </div>
+        <div class="editor-wrap" data-pane="css" hidden>
+          <div id="ed_css" class="editor"></div>
+        </div>
+        <div class="editor-wrap" data-pane="js" hidden>
+          <div id="ed_js" class="editor"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Area 3: Preview -->
+    <section class="glass-panel preview-area">
+      <div class="panel-header">
+        <h2>Live Preview</h2>
+      </div>
+      <div class="preview-container">
+        <iframe id="preview" class="preview-frame" sandbox="allow-scripts allow-same-origin allow-modals"></iframe>
+      </div>
+    </section>
+
+    <!-- Area 4: Output -->
+    <aside class="glass-panel output-area">
+      <div class="panel-header row">
+        <h2>Console</h2>
+        <div class="actions">
+          <button class="btn-ghost" id="clearOut" title="Clear console">Clear</button>
+          <button class="btn-small" id="runTests">Run Tests</button>
+        </div>
+      </div>
+      <div id="output" class="console-out" aria-live="polite"></div>
+    </aside>
+
+  </main>
+
+  <div class="footer">© 2026 — HEMANTH S.P Live Web Code Editor All rights reserved</div>
+
+  <!-- External libraries: Ace only -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js"
+    integrity="sha512-ZIa+FlPaGDSM+lTl9JaxnQvcfma7ETsOHd9Thbhp5u4RX1uYiDNW7XvUrXv4dJSPetXbiTzWilHEkSg4YpmltQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"
+    onerror="(function(){var s=document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/ace-builds@1.43.2/src-min/ace.js'; document.head.appendChild(s);}())">
+    </script>
+
+
+  <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+############## HTML ##################
+<div class="card">
+  <h2>🎨 Modern Color Switcher</h2>
+  <div class="palette">
+    <button class="color-btn" data-color="#ef4444" style="--bg:#ef4444"></button>
+    <button class="color-btn" data-color="#3b82f6" style="--bg:#3b82f6"></button>
+    <button class="color-btn" data-color="#10b981" style="--bg:#10b981"></button>
+    <button class="color-btn" data-color="#f59e0b" style="--bg:#f59e0b"></button>
+    <button class="color-btn" data-color="#8b5cf6" style="--bg:#8b5cf6"></button>
+  </div>
+  <p id="label">Select a color</p>
+</div>
+############## HTML ##################
+
+
+############## CSS ##################
+body { 
+  font-family: 'Inter', sans-serif; 
+  display: grid; 
+  place-items: center; 
+  height: 100vh; 
+  margin: 0;
+  background: #0f172a;
+  color: white;
+  transition: background 0.5s ease;
+}
+
+.card {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
+  padding: 2rem;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.palette {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.color-btn {
+  width: 40px; 
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background: var(--bg);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.color-btn:hover { transform: scale(1.2); }
+############## CSS ##################
+
+
+############## JS ##################
+const body = document.body;
+const label = document.getElementById('label');
+
+document.querySelectorAll('.color-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const color = btn.dataset.color;
+    body.style.background = color;
+    label.innerText = `Selected: ${color}`;
+    label.style.color = 'white';
+  });
+});
+console.log('Modern Switcher Loaded ✨');
+############## JS ##################

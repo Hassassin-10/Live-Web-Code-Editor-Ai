@@ -1,0 +1,545 @@
+/* =========================================
+   1. Design Tokens & Variables
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Colors - Deep Space & Neon */
+  --bg-app: #050509;
+  --bg-panel: rgba(20, 25, 40, 0.4);
+  --bg-panel-hover: rgba(30, 35, 50, 0.5);
+
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shine: rgba(255, 255, 255, 0.03);
+  --glass-blur: 16px;
+
+  /* Brand Colors */
+  --primary: #3b82f6;
+  --primary-glow: rgba(59, 130, 246, 0.4);
+  --accent: #8b5cf6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+
+  /* Spacing & Radius */
+  --gap: 16px;
+  --radius-lg: 24px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+}
+
+/* =========================================
+   2. Reset & Global Styles
+   ========================================= */
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
+  /* Abstract modern background */
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 25%),
+    radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 25%);
+  color: var(--text-main);
+  overflow: hidden;
+  /* App-like feel */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* =========================================
+   3. Header & Navigation
+   ========================================= */
+header {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--glass-border);
+  background: rgba(5, 5, 9, 0.6);
+  backdrop-filter: blur(10px);
+  z-index: 50;
+}
+
+.container.row {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  box-shadow: 0 0 15px var(--primary-glow);
+  position: relative;
+}
+
+/* Fake logo icon */
+.logo::after {
+  content: '{ }';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(to right, #fff, #94a3b8);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Header Buttons */
+.btn,
+.btn-secondary {
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+}
+
+.btn.secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  border-color: var(--glass-border);
+}
+
+.btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   4. Bento Grid Layout
+   ========================================= */
+main.bento-grid {
+  flex: 1;
+  padding: var(--gap);
+  display: grid;
+  gap: var(--gap);
+  /* By default 3 col layout: Task | Editors | Preview+Output */
+  grid-template-columns: 320px 1fr 400px;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "task editors preview"
+    "task editors output";
+  height: calc(100vh - 70px);
+  max-width: 1920px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1400px) {
+  main.bento-grid {
+    grid-template-columns: 280px 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      "editors preview"
+      "editors output";
+    /* Task becomes hidden or toggleable? For now, let's stack it safely or keep 3 cols with smaller widths */
+    /* Let's try to fit task in */
+    grid-template-columns: 260px 1fr 340px;
+    grid-template-areas:
+      "task editors preview"
+      "task editors output";
+  }
+}
+
+@media (max-width: 1100px) {
+  main.bento-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr 1fr;
+    grid-template-areas:
+      "task task"
+      "editors editors"
+      "preview output";
+    height: auto;
+    /* Allow Scroll */
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  main.bento-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "task"
+      "editors"
+      "preview"
+      "output";
+  }
+}
+
+/* Grid Area Assignments */
+.task-area {
+  grid-area: task;
+}
+
+.editor-area {
+  grid-area: editors;
+}
+
+.preview-area {
+  grid-area: preview;
+}
+
+.output-area {
+  grid-area: output;
+}
+
+
+/* =========================================
+   5. Glass Panels & Components
+   ========================================= */
+.glass-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--glass-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  /* Highlight top */
+  backdrop-filter: blur(var(--glass-blur));
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.panel-header {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.panel-header h2 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-header h2::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 8px var(--primary);
+}
+
+.panel-content {
+  padding: 20px;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* =========================================
+   6. Component Specifics
+   ========================================= */
+
+/* Inputs & Textareas */
+.glass-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
+  color: var(--text-main);
+  padding: 12px;
+  border-radius: var(--radius-md);
+  resize: none;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.glass-input:focus {
+  border-color: var(--primary);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+#assignment {
+  flex: 1;
+  min-height: 150px;
+}
+
+#testArea {
+  height: 100px;
+}
+
+/* Editor Area specific */
+.editor-container {
+  flex: 1;
+  position: relative;
+  background: #1e1e2e;
+  /* Ace Dracula approximation base */
+}
+
+.editor-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-wrap[hidden] {
+  display: none;
+}
+
+.editor {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px;
+  border-radius: 10px;
+}
+
+.tab {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tab.active {
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--primary);
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.3);
+}
+
+/* Action Buttons */
+.btn-icon {
+  background: linear-gradient(135deg, var(--success), #059669);
+  border: none;
+  border-radius: 8px;
+  width: auto;
+  padding: 0 12px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-icon:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.btn-ghost:hover {
+  color: white;
+  border-color: white;
+}
+
+/* Preview Area */
+.preview-container {
+  flex: 1;
+  background: white;
+  position: relative;
+}
+
+.preview-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: white;
+}
+
+/* Console Area */
+.console-out {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: #a7f3d0;
+  padding: 16px;
+  flex: 1;
+  overflow-y: auto;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.btn-small {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.btn-small:hover {
+  background: rgba(245, 158, 11, 0.2);
+}
+
+/* Helpers */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.muted {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.small-text {
+  font-size: 0.75rem;
+  margin-top: auto;
+}
+
+.kbd {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+}
+
+/* Footer (if used) */
+.footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  padding: 10px;
+  border-top: 1px solid var(--glass-border);
+  background: rgba(5, 5, 9, 0.8);
+}
+/* Magic Button */
+.btn-magic {
+  background: linear-gradient(135deg, #8b5cf6, #d946ef);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin: 10px 0;
+}
+.btn-magic:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
+}
+.btn-magic .sparkle-icon {
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
