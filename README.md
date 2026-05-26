@@ -18,7 +18,7 @@
 
 - **Glassmorphism 2.0**: Deep space aesthetic with frosted glass panels, neon accents, and smooth animations.
 - **Bento Grid**: Responsive, dashboard-style grid layout that adapts perfectly to any screen size.
-- **Smart Panels**: Distinct areas for Task, Editors, Preview, and Console.
+- **Smart Panels**: Distinct areas for Task, Editors, Preview, and Console.. 
 
 ### 🤖 Gemini AI Integration ("Magic Build")
 
